@@ -1,0 +1,8 @@
+.category {
+  display: flex;
+  justify-content: center;
+}
+.activeDetailCategory > a {
+  color: black !important;
+  font-weight: 600 !important;
+}

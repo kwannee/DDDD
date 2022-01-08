@@ -1,0 +1,13 @@
+.gallery {
+  width: 100%;
+  background-color: #c4c4c4;
+  height: 60vh;
+}
+
+.image {
+  /* width: 1080px;  */
+  height: 60vh !important;
+  cursor: pointer;
+  filter: grayscale(100%);
+  object-fit: cover;
+}

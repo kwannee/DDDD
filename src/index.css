@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+  background: #fff;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  margin-top: 6rem;
+}
+p {
+  color: #a6a6a6;
+  margin: 0 !important;
+  padding: 0;
+}
+a {
+  color: #a6a6a6 !important;
+  transition: none !important;
+}
