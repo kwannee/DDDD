@@ -1,0 +1,39 @@
+.images {
+  background-color: #c4c4c4;
+  width: 60%;
+  height: 500px;
+}
+.gallery {
+  width: 100%;
+  height: 560px;
+  position: relative;
+}
+
+.image {
+  margin: 0 auto;
+  height: 500px;
+  cursor: pointer;
+  background-color: white !important;
+  width: 100%;
+  object-fit: contain;
+}
+
+.arrow {
+  position: absolute;
+  color: lightgray;
+  font-size: 24px;
+  cursor: pointer;
+  top: 0;
+  transition: all ease-in-out 0.2s;
+  height: 100%;
+  width: 25%;
+}
+.next {
+  right: 25px;
+}
+.prev {
+  left: 25px;
+}
+.delay img {
+  display: none;
+}

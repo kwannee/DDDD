@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const LazyImage = ({ src, className }) => {
+const LazyImage = ({ src, className, height }) => {
   // state
   const [isLoading, setIsLoading] = useState(false); // 실제 화면에 보여지고 있는지 여부를 확인
 
@@ -29,9 +29,13 @@ const LazyImage = ({ src, className }) => {
     // 화면에 보여지기 전이라면 NoImage, 화면에 보여지고 있다면 src에 해당하는 이미지
     <>
       {isLoading ? (
-        <img className={className} src={src} alt="project" />
+        <img className={className} style={{ height: `${height}` }} src={src} alt="project" />
       ) : (
-        <div className={className} ref={imgRef} style={{ backgroundColor: 'lightgray' }}></div>
+        <div
+          className={className}
+          ref={imgRef}
+          style={{ backgroundColor: 'lightgray', height: `${height}` }}
+        ></div>
       )}
     </>
   );

@@ -1,0 +1,31 @@
+.projectController {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+}
+.move {
+  cursor: pointer;
+  color: rgb(175, 174, 174);
+}
+.move:hover {
+  color: black;
+}
+
+.alert {
+  display: none;
+  font-weight: bold;
+  bottom: -25px;
+  position: absolute;
+}
+.prev-alert {
+  left: 0;
+}
+.next-alert {
+  right: 0;
+}
+.show {
+  display: unset !important;
+}

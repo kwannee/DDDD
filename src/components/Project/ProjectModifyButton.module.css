@@ -1,0 +1,13 @@
+.modify-btn-div {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding-bottom: 5px;
+}
+.modify-btn {
+  cursor: pointer;
+  color: black;
+}
+.modify-btn:hover {
+  color: #767171;
+}

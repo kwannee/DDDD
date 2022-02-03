@@ -1,25 +1,16 @@
 .container {
-  margin-top: 100px;
+  width: 75%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
-.projects {
+/* .projects {
   display: grid;
   grid-template-columns: repeat(4, 214.5px);
   grid-auto-rows: 214.5px;
   grid-gap: 75px;
-}
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  font-family: Arial;
-  font-size: 3rem;
-  font-weight: bold;
-  background: white;
-  transition: all ease-in-out 0.2s;
-}
-.image:hover {
-  opacity: 0.5;
+} */
+.height70 {
+  height: 70%;
+  position: relative;
 }

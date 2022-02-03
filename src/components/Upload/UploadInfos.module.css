@@ -1,0 +1,9 @@
+.infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 35%;
+}
+.infos > * {
+  padding: 7px 0;
+}

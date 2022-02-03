@@ -1,0 +1,6 @@
+.downBtn {
+  position: absolute;
+  bottom: -25px;
+  right: 0;
+  cursor: pointer;
+}

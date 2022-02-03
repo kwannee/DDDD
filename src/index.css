@@ -1,25 +1,37 @@
+@font-face {
+  font-family: 'SeoulNamsanM';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+  unicode-range: U+AC00-D7A3;
+}
+@font-face {
+  font-family: 'Helvetica';
+  src: url('./fonts/helvetica-light-587ebe5a59211.ttf');
+}
 * {
   box-sizing: border-box;
+  font-family: 'SeoulNamsanM', 'Helvetica', sans-serif;
 }
-
 html {
   font-family: sans-serif;
   background: #fff;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  font-family: 'Helvetica', sans-serif;
 }
 
 main {
   margin-top: 6rem;
 }
 p {
-  color: #a6a6a6;
   margin: 0 !important;
   padding: 0;
 }
 a {
-  color: #a6a6a6 !important;
   transition: none !important;
 }

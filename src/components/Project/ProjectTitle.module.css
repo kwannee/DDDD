@@ -1,0 +1,13 @@
+.names {
+  display: flex;
+  flex-direction: column;
+}
+.names p {
+  font-size: 8px;
+  margin: 0;
+  padding: 0;
+}
+.name {
+  font-size: 12px !important;
+  color: #767171;
+}

@@ -1,8 +1,15 @@
 .category {
   display: flex;
-  justify-content: center;
+}
+.category a {
+  color: rgb(182, 179, 179) !important;
+  padding: 0;
+}
+.category a:active {
+  color: #445496 !important;
+  padding: 0;
 }
 .activeDetailCategory > a {
-  color: black !important;
-  font-weight: 600 !important;
+  color: #313d6b !important;
+  font-weight: bold !important;
 }

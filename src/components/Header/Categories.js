@@ -2,15 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import classes from './Categories.module.css';
 import DetailCategories from './DetailCategories';
-
-const CATEGORIES = ['DESIGN', 'DIGITAL', 'DETAIL', 'DRAWING', 'ETC'];
-const DETAIL_CATEGORIES = {
-  DESIGN: ['ARCHITECTURE', 'INTERIOR', 'FURNITURE', 'URBAN', 'ETC'],
-  DIGITAL: ['SKETCH UP', 'AUTO CAD', 'BIM (REVIT)', 'RENDERING', 'ETC'],
-  DETAIL: ['ARCHITECTURE', 'INTERIOR', 'ETC'],
-  DRAWING: ['ARCHITECTURE', 'ARCHITECTS', 'INTERIOR', 'ETC'],
-  ETC: ['CULTURE', 'BOOKS', 'TRAVEL & EXCURSION', 'MOVIES', 'EXHIBITION', 'MUSIC', 'ETC'],
-};
+import { CATEGORIES, DETAIL_CATEGORIES } from '../../constants';
 
 const Categories = () => {
   const location = useLocation();
@@ -18,8 +10,8 @@ const Categories = () => {
     const [, pathname, category, detailCategory = 'not-detail-category'] =
       location.pathname.split('/');
     if (pathname === 'projects' || pathname === 'project') {
-      setClickedCategory(category.replaceAll('%20', ' '));
-      setClickedDetailCategory(detailCategory.replaceAll('%20', ' '));
+      setClickedCategory(category.replaceAll('%20', ' ').toLocaleLowerCase());
+      setClickedDetailCategory(detailCategory.replaceAll('%20', ' ').toLocaleLowerCase());
     } else {
       setClickedCategory();
       setClickedDetailCategory();

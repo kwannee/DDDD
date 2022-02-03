@@ -1,82 +1,122 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import classes from './Project.module.css';
-import { Input, Button } from 'antd';
+import ProjectImages from './ProjectImages';
+import ProjectInfos from './ProjectInfos';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import ProjectController from './ProjectController';
+import { fetchAllImagesByPath } from '../../firebase/utils/storage';
+import { getDataByPath } from '../../firebase/utils/db';
+import ProjectModifyButton from './ProjectModifyButton';
+import ModifyInfos from './Modify/ModifyInfos';
+import UploadInfos from '../Upload/UploadInfos';
+import ModifyImages from './Modify/ModifyImages';
+import { uploadActions } from '../../store/upload-slice';
 
-const { TextArea } = Input;
+const isCameFromMain = (path) => path.split('/').length === 2;
+const isCameFromCategory = (path) => path.split('/').length === 3;
+const getSortedContextList = ({ contextInfo, startingPoint }) => {
+  let contextInfoList = Object.values(contextInfo);
+  if (isCameFromMain(startingPoint)) {
+    contextInfoList = contextInfoList
+      .flatMap((project) => Object.values(project))
+      .flatMap((project) => Object.values(project));
+  } else if (isCameFromCategory(startingPoint)) {
+    contextInfoList = contextInfoList.flatMap((project) => Object.values(project));
+  }
+  contextInfoList.sort((p1, p2) => new Date(p2.date) - new Date(p1.date));
+  return contextInfoList;
+};
 
-const Project = ({ image }) => {
-  const userName = 'User';
-  const { category, name } = useParams();
+const Project = () => {
+  const [images, setImages] = useState([]);
+  const [info, setInfo] = useState({});
+  const [context, setContext] = useState([]);
+  const startingPoint = useSelector((state) => state.path.path);
+  const navigate = useNavigate();
+  const [, , pathCategory, pathDetail, projectName] = useLocation().pathname.split('/');
+
+  const fetchProjectData = useCallback(async () => {
+    const path = `projects/${pathCategory}/${pathDetail}/${projectName}/`.replace('%20', ' ');
+    const fetchedImages = await fetchAllImagesByPath(path);
+    setImages(fetchedImages);
+    const fetchedInfo = await getDataByPath(path);
+    setInfo(fetchedInfo);
+    const contextInfo = await getDataByPath(startingPoint);
+    const contextInfoList = getSortedContextList({ contextInfo, startingPoint });
+
+    setContext(contextInfoList);
+  }, [pathCategory, pathDetail, projectName, startingPoint]);
+
+  useLayoutEffect(() => {
+    fetchProjectData();
+  }, [fetchProjectData]);
+
+  const currentProjectIndex = context.findIndex(
+    (project) => project.name.eng === projectName.replace('%20', ' '),
+  );
+  const isNotFirstProject = currentProjectIndex !== 0;
+  const isNotLastProject = currentProjectIndex !== context.length - 1;
+  const prevPath = `/project/${context[currentProjectIndex - isNotFirstProject]?.category}/${
+    context[currentProjectIndex - isNotFirstProject]?.detailCategory
+  }/${context[currentProjectIndex - isNotFirstProject]?.name.eng}`;
+  const nextPath = `/project/${context[currentProjectIndex + isNotLastProject]?.category}/${
+    context[currentProjectIndex + isNotLastProject]?.detailCategory
+  }/${context[currentProjectIndex + isNotLastProject]?.name.eng}`;
+
+  const [showPrevAlert, setShowPrevAlert] = useState(false);
+  const [showNextAlert, setShowNextAlert] = useState(false);
+  const clickPrevHandler = () => {
+    if (isNotFirstProject) {
+      navigate(prevPath);
+      return;
+    }
+    setShowPrevAlert(true);
+    setTimeout(() => {
+      setShowPrevAlert(false);
+    }, 1500);
+  };
+  const clickNextHandler = () => {
+    if (isNotLastProject) {
+      navigate(nextPath);
+      return;
+    }
+    setShowNextAlert(true);
+    setTimeout(() => {
+      setShowNextAlert(false);
+    }, 1500);
+  };
+
+  const [modify, setModify] = useState(false);
+  const dispatch = useDispatch();
+  const toggleModifyHandler = () => {
+    setModify((prev) => !prev);
+    dispatch(uploadActions.clearState());
+  };
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.projectLayout}>
-        <div className={classes.imageController}>
-          <p>Previous</p>
-          <p>/</p>
-          <p>Next</p>
-          <p>(1 of 2)</p>
-          <div className={classes.modifyProject}>■</div>
-        </div>
+        <ProjectModifyButton onClick={toggleModifyHandler} />
         <div className={classes.contents}>
-          <div className={classes.images}></div>
-          <div className={classes.infos}>
-            <div className={classes.names}>
-              <p className={classes.name}>한국 이름</p>
-              <p className={classes.name}>Eng Name</p>
-              <p>with ooo</p>
-            </div>
-            <div className={classes.date}>
-              <p>2022-01-06</p>
-            </div>
-            <div className={classes.paragraph}>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, voluptatum nisi.
-                Voluptatem fuga et sint, excepturi cumque fugiat repellat quod laborum atque in
-                quidem ipsum, ut aperiam architecto tempore voluptatum!Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Officia, voluptatum nisi. Voluptatem fuga et sint,
-                excepturi cumque fugiat repellat quod laborum atque in quidem ipsum, ut aperiam
-                architecto tempore voluptatum!Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Officia, voluptatum nisi. Voluptatem fuga et sint, excepturi cumque fugiat
-                repellat quod laborum atque in quidem ipsum, ut aperiam architecto tempore
-                voluptatum!Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia,
-                voluptatum nisi. Voluptatem fuga et sint, excepturi cumque fugiat repellat quod
-                laborum atque in quidem ipsum, ut aperiam architecto tempore voluptatum!Lorem ipsum
-                dolor sit amet consectetur adipisicing elit. Officia, voluptatum nisi. Voluptatem
-                fuga et sint, excepturi cumque fugiat repellat quod laborum atque in quidem ipsum,
-                ut aperiam architecto tempore voluptatum!Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Officia, voluptatum nisi. Voluptatem fuga et sint, excepturi
-                cumque fugiat repellat quod laborum atque in quidem ipsum, ut aperiam architecto
-                tempore voluptatum!
-              </p>
-            </div>
-            <div className={classes.comments}>
-              <div className={classes.comment}>
-                Name 22.01.03
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit, minus.
-                  Architecto, nihil adipisci tempora amet, minus voluptates veniam minima rerum,
-                  magni officiis alias perspiciatis eius. Veritatis magni eligendi rerum possimus.
-                </p>
-              </div>
-            </div>
-            <div className={classes.commentInput}>
-              {userName}
-              <div className={classes.input}>
-                <TextArea
-                  bordered={false}
-                  placeholder="Comment"
-                  autoSize={{ minRows: 2, maxRows: 2 }}
-                />
-                <div className={classes.submit}>▼</div>
-              </div>
-            </div>
-          </div>
+          {modify ? (
+            <>
+              <ProjectImages images={images} />
+              <ProjectInfos infos={info} />
+            </>
+          ) : (
+            <>
+              <ModifyImages images={images} />
+              <ModifyInfos infos={info} images={images} />
+            </>
+          )}
         </div>
-        <div className={classes.projectController}>
-          <p>Previous</p>
-          <p>Next</p>
-        </div>
+        <ProjectController
+          showPrevAlert={showPrevAlert}
+          showNextAlert={showNextAlert}
+          onNextClick={clickNextHandler}
+          onPrevClick={clickPrevHandler}
+        />
       </div>
     </div>
   );
