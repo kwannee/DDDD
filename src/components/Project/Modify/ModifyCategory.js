@@ -32,7 +32,7 @@ const ModifyCategory = ({ category: categoryProp, detailCategory: detailCategory
       </form>
       <form>
         <label>세부 카테고리</label>
-        <select value={detailCategoryProp} onChange={changeDetailCategoryHandler}>
+        <select value={detailCategory} onChange={changeDetailCategoryHandler}>
           <option disabled selected value>
             세부 카테고리를 선택해주세요.
           </option>

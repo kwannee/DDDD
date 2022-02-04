@@ -12,21 +12,27 @@ import Login from './components/Login/Login';
 import app from './firebase/firebase';
 import Upload from './components/Upload/Upload';
 import SignUp from './components/SignUp/SignUp';
-import { fetchAllImagesByPath } from './firebase/utils/storage';
+import { fetchAllImagesByPath, fetchAllThumbnails } from './firebase/utils/storage';
 import Code from './components/Code/Code';
 import MainProjects from './components/Main/projects/MainProjects';
 
 function App() {
   const location = useLocation();
   const [images, setImages] = useState([]);
+  const [welcome, setWelcome] = useState([]);
 
   const fetchAllProjects = useCallback(async () => {
-    const thumbnails = await fetchAllImagesByPath('thumbnails/');
+    const thumbnails = await fetchAllThumbnails('thumbnails/');
+    thumbnails.sort((p1, p2) => new Date(p2.date) - new Date(p1.date));
     setImages(thumbnails);
   }, []);
-
+  const fetchMainImages = useCallback(async () => {
+    const mainImages = await fetchAllImagesByPath('welcome/');
+    setWelcome(mainImages);
+  });
   useEffect(() => {
     fetchAllProjects();
+    fetchMainImages();
   }, [fetchAllProjects]);
 
   return (
@@ -35,8 +41,8 @@ function App() {
         {location.pathname !== '/' && <Header />}
         <Routes>
           <Route path="/" element={<Welcome />} exact />
-          <Route path="/main" element={<Main projects={images} />} exact />
-          <Route path="/main/projects" element={<MainProjects projects={images} />} exact />
+          <Route path="/main" element={<Main projects={images} mainImages={welcome} />} exact />
+          <Route path="/main/projects" element={<MainProjects images={welcome} />} exact />
           <Route path="/projects/:category" element={<Projects images={images} />} />
           <Route
             path="/projects/:category/:detailCategory"

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { uploadActions } from '../../../store/upload-slice';
-import { renameFiles, readFileAsync, resizeImageWidth } from '../../../utils/file';
+import { readFileAsync, renameFiles, resizeImageWidth } from '../../../utils/file';
 
-const UploadImagesInput = () => {
+const MainProjectsImagesInput = () => {
   const dispatch = useDispatch();
 
   const inputFilesHandler = async (e) => {
@@ -18,7 +18,6 @@ const UploadImagesInput = () => {
     dispatch(uploadActions.setFiles(renamedFilesArray));
     dispatch(uploadActions.setImages(images));
   };
-
   return (
     <form>
       <input onChange={inputFilesHandler} type="file" multiple />
@@ -26,4 +25,4 @@ const UploadImagesInput = () => {
   );
 };
 
-export default UploadImagesInput;
+export default MainProjectsImagesInput;

@@ -1,26 +1,24 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { readFileAsync, renameFiles } from '../../../utils/file';
-import ImageResize from 'image-resize';
+import { readFileAsync, renameFilesFromLastIndex } from '../../../utils/file';
 import { uploadActions } from '../../../store/upload-slice';
+import { useSelector } from 'react-redux';
 
 const ModifyImagesInput = () => {
   const dispatch = useDispatch();
-
+  //   const prevFiles = useSelector((state) => state.upload.files);
+  const prevImages = useSelector((state) => state.upload.images);
   const inputFilesHandler = async (e) => {
-    const renamedFilesArray = renameFiles(e.target.files);
-    let imageResize = new ImageResize();
-    const thumbnail = await imageResize
-      .updateOptions({ width: 250, format: 'jpg', outputType: 'blob' })
-      .play(e.target.files[0]);
-    dispatch(uploadActions.setThumbnail(thumbnail));
+    const prevlastImageIndex = prevImages[prevImages.length - 1]?.name;
+    const renamedFilesArray = renameFilesFromLastIndex(e.target.files, prevlastImageIndex);
     const images = await Promise.all(
       Array.from(e.target.files).map(async (file) => {
         return { src: await readFileAsync(file) };
       }),
     );
+
     dispatch(uploadActions.setFiles(renamedFilesArray));
-    dispatch(uploadActions.setImages(images));
+    dispatch(uploadActions.setImages(prevImages.concat(images)));
   };
 
   return (

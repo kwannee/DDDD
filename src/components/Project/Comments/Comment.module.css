@@ -2,8 +2,66 @@
   color: #767171;
   line-height: 1rem;
   padding-bottom: 7px;
+  width: 100%;
+  position: relative;
 }
 .comment-info {
   font-size: 12px;
   padding-bottom: 1.5px;
+}
+.delete-btn {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 10px;
+}
+.delete-btn:hover {
+  color: lightgray;
+}
+.modify-btn {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 25px;
+  color: black;
+}
+.modify-btn:hover {
+  color: lightgray;
+}
+.input {
+  display: flex;
+  align-items: center;
+}
+.input > textarea {
+  border-right: none;
+  border-top: 1px solid #d9d9d9 !important;
+  border-left: 1px solid #d9d9d9 !important;
+  border-bottom: 1px solid #d9d9d9 !important;
+  box-shadow: none;
+  font-size: 12px;
+}
+.input > textarea::-webkit-scrollbar {
+  display: none;
+}
+.input > textarea:hover {
+  border-top: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+}
+.input > textarea:focus {
+  box-shadow: none;
+}
+.input > .submit {
+  font-size: 12px;
+  color: #767171;
+  display: flex;
+  align-items: center;
+  height: 29px;
+  padding-right: 10px;
+  border-top: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+}
+.input > .submit:hover {
+  cursor: pointer;
 }

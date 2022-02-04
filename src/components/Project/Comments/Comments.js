@@ -1,10 +1,9 @@
 import Comment from './Comment';
 import classes from './Comments.module.css';
 
-const Comments = ({ comments }) => {
-  const commentsList = comments?.map((item) => {
-    const { name, comment, date } = item[1];
-    return <Comment name={name} comment={comment} date={date} />;
+const Comments = ({ comments, reloadHandler }) => {
+  const commentsList = comments?.map((commentInfo) => {
+    return <Comment reloadHandler={reloadHandler} comment={commentInfo} />;
   });
 
   return <div className={classes.comments}>{commentsList}</div>;

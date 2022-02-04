@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classes from './Upload.module.css';
 
@@ -11,8 +11,10 @@ import { getAuth } from 'firebase/auth';
 import { setDataByPath } from '../../firebase/utils/db';
 import { uploadFileByPath, uploadFilesByPath } from '../../firebase/utils/storage';
 import { renameFile } from '../../utils/file';
+import { uploadActions } from '../../store/upload-slice';
 
 const Upload = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = getAuth();
   useEffect(() => {
@@ -72,6 +74,7 @@ const Upload = () => {
       },
     });
     setUploading(false);
+    dispatch(uploadActions.clearState());
     // window.location.reload();
   };
 

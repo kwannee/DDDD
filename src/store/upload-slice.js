@@ -11,6 +11,7 @@ const initialState = {
   category: '',
   detailCategory: '',
   thumbnail: '',
+  paths: [],
 };
 
 const uploadSlice = createSlice({
@@ -40,6 +41,9 @@ const uploadSlice = createSlice({
     },
     setThumbnail(state, action) {
       state.thumbnail = action.payload;
+    },
+    setMainProjectImagePath(state, action) {
+      state.paths = action.payload;
     },
     clearState(state) {
       state = initialState;

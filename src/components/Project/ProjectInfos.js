@@ -28,7 +28,10 @@ const ProjectInfos = ({ infos }) => {
       <ProjectTitle title={infos.name} writer={infos.userName} />
       <ProjectDate date={infos.date} />
       <ProjectDescription description={infos.description} />
-      <Comments comments={comments ? Object.entries(comments) : []} />
+      <Comments
+        reloadHandler={reloadComments}
+        comments={comments ? Object.entries(comments) : []}
+      />
       {auth.currentUser && <CommentInput reloadHandler={reloadComments} />}
     </div>
   );

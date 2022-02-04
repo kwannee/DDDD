@@ -7,10 +7,10 @@
 .image {
   margin: 0 auto;
   height: 560px;
-  cursor: pointer;
-  background-color: white !important;
+  background-color: rgba(250, 246, 246, 0.603) !important;
   width: 100%;
   object-fit: contain;
+  border-radius: 5px;
 }
 
 .arrow {
@@ -21,7 +21,7 @@
   top: 0;
   transition: all ease-in-out 0.2s;
   height: 100%;
-  width: 25%;
+  width: 15%;
 }
 .next {
   right: 25px;

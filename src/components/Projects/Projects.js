@@ -15,12 +15,16 @@ const Projects = ({ images, style, main }) => {
     .filter((project) =>
       detailCategory ? detailCategory === project.detailCategory.toLowerCase() : true,
     );
-
+  console.log(filteredImages);
   return (
     <div className={`${classes.container} projects-container`} style={style}>
       <div className={classes.height70}>
         <div className={classes.projects}>
-          <Grid projects={filteredImages} />
+          {filteredImages.length ? (
+            <Grid projects={filteredImages} />
+          ) : (
+            <p>아직 게시글이 없습니다.</p>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useCallback, useEffect } from 'react';
 import classes from './Project.module.css';
 import ProjectImages from './ProjectImages';
 import ProjectInfos from './ProjectInfos';
@@ -37,7 +37,8 @@ const Project = () => {
   const [, , pathCategory, pathDetail, projectName] = useLocation().pathname.split('/');
 
   const fetchProjectData = useCallback(async () => {
-    const path = `projects/${pathCategory}/${pathDetail}/${projectName}/`.replace('%20', ' ');
+    const path = `projects/${pathCategory}/${pathDetail}/${projectName}/`.replace(/\%20/gi, ' ');
+    console.log(path);
     const fetchedImages = await fetchAllImagesByPath(path);
     setImages(fetchedImages);
     const fetchedInfo = await getDataByPath(path);
@@ -52,17 +53,18 @@ const Project = () => {
     fetchProjectData();
   }, [fetchProjectData]);
 
-  const currentProjectIndex = context.findIndex(
-    (project) => project.name.eng === projectName.replace('%20', ' '),
+  const currentProjectIndex = context?.findIndex(
+    (project) => project?.name?.eng === projectName.replace(/\%20/gi, ' '),
   );
   const isNotFirstProject = currentProjectIndex !== 0;
   const isNotLastProject = currentProjectIndex !== context.length - 1;
+
   const prevPath = `/project/${context[currentProjectIndex - isNotFirstProject]?.category}/${
     context[currentProjectIndex - isNotFirstProject]?.detailCategory
-  }/${context[currentProjectIndex - isNotFirstProject]?.name.eng}`;
+  }/${context[currentProjectIndex - isNotFirstProject]?.name?.eng}`;
   const nextPath = `/project/${context[currentProjectIndex + isNotLastProject]?.category}/${
     context[currentProjectIndex + isNotLastProject]?.detailCategory
-  }/${context[currentProjectIndex + isNotLastProject]?.name.eng}`;
+  }/${context[currentProjectIndex + isNotLastProject]?.name?.eng}`;
 
   const [showPrevAlert, setShowPrevAlert] = useState(false);
   const [showNextAlert, setShowNextAlert] = useState(false);
@@ -93,6 +95,9 @@ const Project = () => {
     setModify((prev) => !prev);
     dispatch(uploadActions.clearState());
   };
+  const closeModify = () => {
+    setModify(false);
+  };
 
   return (
     <div className={classes.wrapper}>
@@ -101,22 +106,26 @@ const Project = () => {
         <div className={classes.contents}>
           {modify ? (
             <>
-              <ProjectImages images={images} />
-              <ProjectInfos infos={info} />
+              <ModifyImages images={images} />
+              <ModifyInfos closeModify={closeModify} infos={info} images={images} />
             </>
           ) : (
             <>
-              <ModifyImages images={images} />
-              <ModifyInfos infos={info} images={images} />
+              <ProjectImages images={images} />
+              <ProjectInfos infos={info} />
             </>
           )}
         </div>
-        <ProjectController
-          showPrevAlert={showPrevAlert}
-          showNextAlert={showNextAlert}
-          onNextClick={clickNextHandler}
-          onPrevClick={clickPrevHandler}
-        />
+        {!modify ? (
+          <ProjectController
+            showPrevAlert={showPrevAlert}
+            showNextAlert={showNextAlert}
+            onNextClick={clickNextHandler}
+            onPrevClick={clickPrevHandler}
+          />
+        ) : (
+          <div style={{ height: '20%' }}></div>
+        )}
       </div>
     </div>
   );

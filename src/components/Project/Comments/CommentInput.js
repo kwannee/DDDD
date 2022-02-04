@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import classes from './CommentInput.module.css';
-import { Input } from 'antd';
 import { getAuth } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
 import { updateDataByPath } from '../../../firebase/utils/db';
+import { Input } from 'antd';
 const { TextArea } = Input;
 
 const CommentInput = ({ reloadHandler }) => {
@@ -32,12 +32,6 @@ const CommentInput = ({ reloadHandler }) => {
   const inputChangeHandler = (e) => {
     setInputValue(e.target.value);
   };
-  const enterHandler = (e) => {
-    e.preventDefault();
-    if (e.keyCode === 13) {
-      submitCommentHandler(e);
-    }
-  };
 
   return (
     <div className={classes.commentInput}>
@@ -46,7 +40,6 @@ const CommentInput = ({ reloadHandler }) => {
         <TextArea
           value={inputValue}
           onChange={inputChangeHandler}
-          onKeyUp={enterHandler}
           bordered={false}
           placeholder="Comment"
           autoSize={{ minRows: 2, maxRows: 2 }}
