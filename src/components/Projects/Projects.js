@@ -15,7 +15,6 @@ const Projects = ({ images, style, main }) => {
     .filter((project) =>
       detailCategory ? detailCategory === project.detailCategory.toLowerCase() : true,
     );
-  console.log(filteredImages);
   return (
     <div className={`${classes.container} projects-container`} style={style}>
       <div className={classes.height70}>

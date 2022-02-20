@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 75%;
+}
+.input-div {
+  display: flex;
+  width: 100%;
+}
+.input-btn {
+  background-color: lightgray;
+  border: none;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout-div {
+  margin-top: 15px;
+}

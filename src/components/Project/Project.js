@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProjectController from './ProjectController';
 import { fetchAllImagesByPath } from '../../firebase/utils/storage';
 import { getDataByPath } from '../../firebase/utils/db';
-import ProjectModifyButton from './ProjectModifyButton';
-import ModifyInfos from './Modify/ModifyInfos';
-import UploadInfos from '../Upload/UploadInfos';
-import ModifyImages from './Modify/ModifyImages';
 import { uploadActions } from '../../store/upload-slice';
+import { getAuth } from 'firebase/auth';
+import ProjectManageButtons from './ProjectManageButtons';
+import Modify from './Modify/Modify';
+import { makePath } from '../../utils/string';
+import { BLANK_REGEX } from '../../constants';
 
 const isCameFromMain = (path) => path.split('/').length === 2;
 const isCameFromCategory = (path) => path.split('/').length === 3;
@@ -29,6 +30,8 @@ const getSortedContextList = ({ contextInfo, startingPoint }) => {
 };
 
 const Project = () => {
+  const auth = getAuth();
+
   const [images, setImages] = useState([]);
   const [info, setInfo] = useState({});
   const [context, setContext] = useState([]);
@@ -37,15 +40,13 @@ const Project = () => {
   const [, , pathCategory, pathDetail, projectName] = useLocation().pathname.split('/');
 
   const fetchProjectData = useCallback(async () => {
-    const path = `projects/${pathCategory}/${pathDetail}/${projectName}/`.replace(/\%20/gi, ' ');
-    console.log(path);
+    const path = makePath(`projects/${pathCategory}/${pathDetail}/${projectName}/`);
     const fetchedImages = await fetchAllImagesByPath(path);
     setImages(fetchedImages);
     const fetchedInfo = await getDataByPath(path);
     setInfo(fetchedInfo);
     const contextInfo = await getDataByPath(startingPoint);
     const contextInfoList = getSortedContextList({ contextInfo, startingPoint });
-
     setContext(contextInfoList);
   }, [pathCategory, pathDetail, projectName, startingPoint]);
 
@@ -54,8 +55,9 @@ const Project = () => {
   }, [fetchProjectData]);
 
   const currentProjectIndex = context?.findIndex(
-    (project) => project?.name?.eng === projectName.replace(/\%20/gi, ' '),
+    (project) => project?.name?.eng === projectName.replace(BLANK_REGEX, ' '),
   );
+
   const isNotFirstProject = currentProjectIndex !== 0;
   const isNotLastProject = currentProjectIndex !== context.length - 1;
 
@@ -102,13 +104,10 @@ const Project = () => {
   return (
     <div className={classes.wrapper}>
       <div className={classes.projectLayout}>
-        <ProjectModifyButton onClick={toggleModifyHandler} />
+        {auth.currentUser && <ProjectManageButtons toggleModifyHandler={toggleModifyHandler} />}
         <div className={classes.contents}>
           {modify ? (
-            <>
-              <ModifyImages images={images} />
-              <ModifyInfos closeModify={closeModify} infos={info} images={images} />
-            </>
+            <Modify closeModify={closeModify} infos={info} images={images} />
           ) : (
             <>
               <ProjectImages images={images} />

@@ -53,6 +53,8 @@ export const EXIST_USER_ERROR = '이미 존재하는 아이디입니다.';
 export const EMPTY_CETEGORY_ERROR = '카테고리를 선택해주세요.';
 export const WRONG_CODE_ERROR = '잘못된 가입 코드입니다.';
 
+export const BLANK_REGEX = /\%20/gi;
+
 export const CATEGORY_OPTIONS = CATEGORIES.map((category, idx) => (
   <option key={category + idx} value={category}>
     {category}

@@ -1,10 +1,10 @@
 import React from 'react';
 import Gallery from '../UI/Gallery';
 import classes from './LoginImages.module.css';
-const LoginImages = () => {
+const LoginImages = ({ images }) => {
   return (
     <div className={classes.images}>
-      <Gallery images={[]} height={'500px'} />
+      <Gallery images={images} height={'500px'} />
     </div>
   );
 };

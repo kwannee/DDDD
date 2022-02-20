@@ -1,6 +1,36 @@
 .images {
-  background-color: rgba(250, 246, 246, 0.603);
   width: 65%;
   height: 500px;
-  margin-right: 30px;
+}
+.gallery {
+  width: 60%;
+  background-color: rgba(250, 246, 246, 0.603);
+  height: 500px;
+  position: relative;
+}
+
+.image {
+  margin: 0 auto;
+  height: 500px;
+  cursor: pointer;
+  background-color: white !important;
+  width: 100%;
+  object-fit: contain;
+}
+
+.arrow {
+  position: absolute;
+  color: lightgray;
+  font-size: 24px;
+  cursor: pointer;
+  top: 0;
+  transition: all ease-in-out 0.2s;
+  height: 100%;
+  width: 25%;
+}
+.next {
+  right: 0;
+}
+.prev {
+  left: 0;
 }

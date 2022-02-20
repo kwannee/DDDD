@@ -1,11 +1,11 @@
 .images {
-  background-color: #c4c4c4;
   width: 60%;
   height: 500px;
 }
 .gallery {
   width: 60%;
   height: 500px;
+  background-color: #c4c4c4;
   position: relative;
 }
 
@@ -29,10 +29,10 @@
   width: 25%;
 }
 .next {
-  right: 25px;
+  right: 0;
 }
 .prev {
-  left: 25px;
+  left: 0;
 }
 .delay img {
   display: none;

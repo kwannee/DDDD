@@ -1,5 +1,4 @@
 import classes from './ProjectTitle.module.css';
-
 const ProjectTitle = ({ title, writer }) => {
   return (
     <div className={classes.names}>

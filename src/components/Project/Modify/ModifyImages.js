@@ -3,6 +3,8 @@ import React, { useRef } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { BLANK_REGEX } from '../../../constants';
 import {
   deleteFileByPath,
   getFileByPath,
@@ -10,11 +12,14 @@ import {
 } from '../../../firebase/utils/storage';
 import { uploadActions } from '../../../store/upload-slice';
 import { resizeImageWidth } from '../../../utils/file';
+import { makePath } from '../../../utils/string';
 import classes from './ModifyImages.module.css';
 
 const ModifyImages = ({ images: imagesProp }) => {
   const images = useSelector((state) => state.upload.images);
-  const { category, detailCategory, projectName } = imagesProp[0];
+  const [, , category, detailCategory, projectName] = useLocation()
+    .pathname.replace(BLANK_REGEX, ' ')
+    .split('/');
   const carouselRef = useRef();
   const clickPrevHandler = () => {
     carouselRef.current.prev();
@@ -36,21 +41,23 @@ const ModifyImages = ({ images: imagesProp }) => {
         return;
       }
       await deleteFileByPath(
-        `projects/${category}/${detailCategory}/${projectName}/${clickedImageName}`,
+        makePath(`projects/${category}/${detailCategory}/${projectName}/${clickedImageName}`),
       );
       const deletedImages = imagesProp.filter((image) => image.name !== clickedImageName);
-      dispatch(uploadActions.setImages(deletedImages));
       if (clickedImageName === firstImageName) {
         const file = await getFileByPath({
-          path: `projects/${deletedImages[0].category}/${deletedImages[0].detailCategory}/${deletedImages[0].projectName}/${deletedImages[0].name}`,
-          name: `${category}***${detailCategory}***${projectName}`,
+          path: makePath(
+            `projects/${deletedImages[0].category}/${deletedImages[0].detailCategory}/${deletedImages[0].projectName}/${deletedImages[0].name}`,
+          ),
+          name: makePath(`${category}***${detailCategory}***${projectName}`),
         });
         const thumbnail = await resizeImageWidth({ width: 250, file });
         await uploadFileByPathNoFileName({
-          path: `/thumbnails/${category}***${detailCategory}***${projectName}`,
+          path: makePath(`/thumbnails/${category}***${detailCategory}***${projectName}`),
           file: thumbnail,
         });
       }
+      window.location.reload();
     }
   };
 

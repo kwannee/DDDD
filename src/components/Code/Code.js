@@ -1,6 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Redir } from 'react-router-dom';
 import { setDataByPath } from '../../firebase/utils/db';
 
 const Code = () => {
@@ -14,7 +14,7 @@ const Code = () => {
 
   const [code, setCode] = useState('');
   const genreateRandomKey = async () => {
-    if (code) {
+    if (code || !auth.currentUser) {
       return;
     }
     const randomKey = Math.random().toString(36).substr(2, 11);

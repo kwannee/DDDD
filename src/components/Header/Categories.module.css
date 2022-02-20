@@ -15,8 +15,11 @@
 .category > a {
   color: #313d6b !important;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: lighter !important;
   word-break: break-all;
+}
+.category > a > p::first-letter {
+  font-weight: 600;
 }
 .category > a:active {
   color: #646e97 !important;

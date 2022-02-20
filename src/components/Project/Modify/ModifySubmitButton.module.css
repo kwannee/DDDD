@@ -2,10 +2,10 @@
   display: flex;
   justify-content: flex-end;
   padding-top: 15px;
-  z-index: 1000;
 }
 .modify-submit-btn {
   cursor: pointer;
+  z-index: 1000;
 }
 .modify-submit-btn:hover {
   color: rgb(153, 151, 151);

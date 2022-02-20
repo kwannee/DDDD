@@ -68,6 +68,7 @@ const Upload = () => {
         description,
         category,
         detailCategory,
+        uid: auth.currentUser.uid,
         userName: auth.currentUser.displayName,
         date: new Date().toISOString(),
         comments: [],
@@ -75,7 +76,7 @@ const Upload = () => {
     });
     setUploading(false);
     dispatch(uploadActions.clearState());
-    // window.location.reload();
+    window.location.reload();
   };
 
   const errorHandler = (errorName) => {

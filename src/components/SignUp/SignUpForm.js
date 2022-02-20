@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import React, { useState, useRef } from 'react';
+import { makePath } from '../../utils/string';
 import { useNavigate } from 'react-router-dom';
 import {
   EXIST_USER_ERROR,
@@ -10,7 +11,7 @@ import {
   WRONG_EMAIL_FORMAT,
   WRONG_PASSWORD_FOTMAT_ERROR,
 } from '../../constants';
-import { getDataByPath, removeDataByPath } from '../../firebase/utils/db';
+import { getDataByPath, removeDataByPath, setDataByPath } from '../../firebase/utils/db';
 import classes from './SignUpForm.module.css';
 
 const SignUpForm = () => {
@@ -52,7 +53,8 @@ const SignUpForm = () => {
         const user = userCredential.user;
         updateProfile(user, {
           displayName,
-        }).then(() => {
+        }).then(async () => {
+          await setDataByPath({ path: makePath(`users/${user.uid}/`), data: displayName });
           navigate('/main');
         });
       })
@@ -72,7 +74,7 @@ const SignUpForm = () => {
     <div className={classes.wrapper}>
       <h3 style={{ fontWeight: 'bold' }}>Sign Up</h3>
       <form>
-        <label>Name</label>
+        <label>Nickname</label>
         <input ref={nameRef} type="text" />
       </form>
       <form>

@@ -3,27 +3,13 @@ import classes from './ModifyCategory.module.css';
 import { CATEGORY_OPTIONS, DETAILCATEGORY_OPTIONS } from '../../../constants';
 import { useDispatch } from 'react-redux';
 import { uploadActions } from '../../../store/upload-slice';
-const ModifyCategory = ({ category: categoryProp, detailCategory: detailCategoryProp }) => {
-  const dispatch = useDispatch();
-  const [category, setCategory] = useState(categoryProp ? categoryProp : 'Dream');
-  const [detailCategory, setDetailCategory] = useState(
-    detailCategoryProp ? detailCategoryProp : '',
-  );
 
-  const changeCategoryHandler = (e) => {
-    setCategory(e.target.value);
-    dispatch(uploadActions.setCategory(e.target.value));
-  };
-  const changeDetailCategoryHandler = (e) => {
-    setDetailCategory(e.target.value);
-    dispatch(uploadActions.setDetailCategory(e.target.value));
-  };
-
+const ModifyCategory = ({ category, detailCategory }) => {
   return (
     <div className={classes.wrapper}>
       <form>
         <label>카테고리</label>
-        <select value={category} onChange={changeCategoryHandler}>
+        <select disabled value={category}>
           <option disabled selected value>
             카테고리를 선택해주세요.
           </option>
@@ -32,7 +18,7 @@ const ModifyCategory = ({ category: categoryProp, detailCategory: detailCategory
       </form>
       <form>
         <label>세부 카테고리</label>
-        <select value={detailCategory} onChange={changeDetailCategoryHandler}>
+        <select disabled value={detailCategory}>
           <option disabled selected value>
             세부 카테고리를 선택해주세요.
           </option>

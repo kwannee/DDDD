@@ -32,7 +32,7 @@ const Categories = () => {
               }`}
             >
               <Link to={`/projects/${lowerCasedCategory}`} className="category">
-                {category}
+                <p>{category}</p>
               </Link>
               <ul
                 className={`${classes.categoryDetail} ${

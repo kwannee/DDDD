@@ -1,3 +1,5 @@
+import { BLANK_REGEX } from '../constants';
+
 export const capitalizeFirstLetter = (str) => {
   const firstChar = str[0];
   const firstCharUpper = firstChar.toUpperCase();
@@ -5,3 +7,5 @@ export const capitalizeFirstLetter = (str) => {
 
   return firstCharUpper + leftChar;
 };
+
+export const makePath = (...args) => args.join('/').replace(BLANK_REGEX, ' ');

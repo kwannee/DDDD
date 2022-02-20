@@ -15,6 +15,7 @@ import SignUp from './components/SignUp/SignUp';
 import { fetchAllImagesByPath, fetchAllThumbnails } from './firebase/utils/storage';
 import Code from './components/Code/Code';
 import MainProjects from './components/Main/projects/MainProjects';
+import User from './components/User/User';
 
 function App() {
   const location = useLocation();
@@ -49,10 +50,11 @@ function App() {
             element={<Projects images={images} />}
           />
           <Route path="/project/:category/:detailCategory/:name" element={<Project />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login images={welcome} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/code" element={<Code />} />
+          <Route path="/user" element={<User />} />
         </Routes>
       </Layout>
     </div>

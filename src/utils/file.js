@@ -12,13 +12,18 @@ export function readFileAsync(file) {
 }
 
 export function renameFile(file, name) {
-  console.log(new File(file, { type: 'image/png' }));
   return Array.from(file).map((file) => {
     const blob = file.slice(0, file.size, 'image/png');
     const newFile = new File([blob], name, { type: 'image/png' });
     return newFile;
   });
 }
+
+export const renameFileWithName = ({ file, name }) => {
+  const blob = file.slice(0, file.size, 'image/png');
+  const newFile = new File([blob], name, { type: 'image/png' });
+  return newFile;
+};
 
 export function renameFiles(files) {
   return Array.from(files).map((file, index) => {
@@ -32,6 +37,7 @@ export function renameFilesFromLastIndex(files, start) {
   return Array.from(files).map((file, index) => {
     const blob = file.slice(0, file.size, 'image/png');
     const newFile = new File([blob], parseInt(index + +start + 1), { type: 'image/png' });
+    console.log(newFile);
     return newFile;
   });
 }

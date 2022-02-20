@@ -4,13 +4,16 @@ import { getAuth } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
 import { updateDataByPath } from '../../../firebase/utils/db';
 import { Input } from 'antd';
+import { makePath } from '../../../utils/string';
 const { TextArea } = Input;
 
 const CommentInput = ({ reloadHandler }) => {
+  const auth = getAuth();
   const [, , category, detailCategory, projectName] = useLocation().pathname.split('/');
   const [inputValue, setInputValue] = useState('');
   const userName = getAuth().currentUser.displayName;
-  const submitCommentHandler = (e) => {
+  const path = `projects/${category}/${detailCategory}/${projectName}/comments`;
+  const submitCommentHandler = async (e) => {
     e.preventDefault();
     if (!inputValue) {
       return;
@@ -19,12 +22,13 @@ const CommentInput = ({ reloadHandler }) => {
       [new Date().getTime()]: {
         comment: inputValue,
         name: userName,
+        uid: auth.currentUser.uid,
         date: new Date().toISOString().split('T')[0],
       },
     };
     setInputValue('');
-    updateDataByPath({
-      path: `projects/${category}/${detailCategory}/${projectName}/comments`,
+    await updateDataByPath({
+      path: makePath(path),
       data: comment,
     });
     reloadHandler();

@@ -5,7 +5,7 @@ import LoginForm from './LoginForm';
 import LoginImages from './LoginImages';
 import { useEffect } from 'react';
 
-const Login = () => {
+const Login = ({ images }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const Login = () => {
     <div className={classes.wrapper}>
       <div className={classes.projectLayout}>
         <div className={classes.contents}>
-          <LoginImages />
+          <LoginImages images={images} />
           <LoginForm />
         </div>
         <div className={classes.error}></div>

@@ -1,20 +1,30 @@
 import { getAuth } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
-import { removeDataByPath, setDataByPath } from '../../../firebase/utils/db';
+import { getDataByPath, removeDataByPath, setDataByPath } from '../../../firebase/utils/db';
 import classes from './Comment.module.css';
 import { Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { makePath } from '../../../utils/string';
 const { TextArea } = Input;
 
 const Comment = ({ comment: commentInfo, reloadHandler }) => {
   const auth = getAuth();
   const [, , category, detailCategory, projectName] = useLocation().pathname.split('/');
-  const [key, { name, comment: commentProp, date }] = commentInfo;
+  const [key, { name: nameProp, comment: commentProp, date, uid }] = commentInfo;
+  const [name, setName] = useState(nameProp);
   const [comment, setComment] = useState(commentProp);
+  const path = `projects/${category}/${detailCategory}/${projectName}/comments/${key}`;
 
+  const loadCommentWriter = async () => {
+    const nickName = await getDataByPath(`users/${uid}`);
+    setName(nickName ? nickName : name);
+  };
+  useEffect(() => {
+    loadCommentWriter();
+  }, []);
   const removeCommentHandler = async () => {
-    await removeDataByPath(`projects/${category}/${detailCategory}/${projectName}/comments/${key}`);
-    reloadHandler();
+    await removeDataByPath(makePath(path));
+    window.location.reload();
   };
 
   const [modify, setModify] = useState(false);
@@ -24,10 +34,9 @@ const Comment = ({ comment: commentInfo, reloadHandler }) => {
   const commentChangeHandler = (e) => {
     setComment(e.target.value);
   };
-
   const submitCommentHandler = async () => {
     await setDataByPath({
-      path: `projects/${category}/${detailCategory}/${projectName}/comments/${key}/comment`,
+      path: makePath(path, 'comment'),
       data: comment,
     });
     setModify(false);
@@ -53,7 +62,7 @@ const Comment = ({ comment: commentInfo, reloadHandler }) => {
           </p>
         </div>
       )}
-      {auth.currentUser.displayName === name && (
+      {auth.currentUser?.displayName === name && (
         <>
           <p onClick={removeCommentHandler} className={classes['delete-btn']}>
             x
